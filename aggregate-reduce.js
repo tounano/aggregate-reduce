@@ -17,12 +17,26 @@ module.exports = function aggregateReduce(col, arr, map, reduce, opts, cb) {
     }), function (err) {
       if (ended) return dispose();
       if (err) {ended = true; _cb(err); return dispose();}
-      
-      tempCol.mapReduce(map, reduce, opts, function (err, results) {
-        dispose();
-        if (ended) return;
-        clearTimeout(timer);
-        _cb(err, results);
+
+      tempCol.count(function (err, count) {
+        if (err) {ended = true; _cb(err); return dispose();};
+
+        if (count <= 0) {
+          dispose();
+          if (ended) return;
+          ended = true;
+          clearTimeout(timer);
+
+          return _cb(err, opts && opts.out && opts.out.reduce && col.db.collection(opts.out.reduce) || []);
+        }
+
+        tempCol.mapReduce(map, reduce, opts, function (err, results) {
+          dispose();
+          if (ended) return;
+          ended = true;
+          clearTimeout(timer);
+          _cb(err, results);
+        })
       })
     })
   })

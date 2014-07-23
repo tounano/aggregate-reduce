@@ -1,6 +1,6 @@
 {
   "name": "aggregate-reduce",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./aggregate-reduce.js",
   "description": "Perform aggregate reduce operations on MongoDB.",
   "homepage": "https://github.com/tounano/aggregate-reduce/",
