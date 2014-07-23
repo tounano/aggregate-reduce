@@ -1,11 +1,6 @@
 var _ = require('underscore');
 var aggregateOut = require('mongo-aggregate-out');
 var defaults = {ttl: 3600};
-/*module.exports = function aggregateReduceFactory(db, options) {
-  var createTemporaryCollection = require('tempcol')(db, {prefix: 'tmp.ar'});
-  var aggregateOut = require('mongo-aggregate-out');*
-
-  options = _.defaults(options || {}, defaults);*/
 
 module.exports = function aggregateReduce(col, arr, map, reduce, opts, cb) {
   opts = _.defaults(opts || {}, defaults);
